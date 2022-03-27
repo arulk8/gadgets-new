@@ -1,41 +1,22 @@
 import "./App.css";
-import logo from "./logo.png";
+import { Routes, Route } from "react-router-dom";
+import Mockman from "mockman-js";
+import Header from "./components/Header/Header";
+import Products from "./components/Products/Products";
+import { StoreProvider } from "./store/app-store-context";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="mockBee logo" width="180" height="180" />
-        <h1 className="brand-title">
-          Welcome to <span>mockBee!</span>
-        </h1>
-        <p className="brand-description">
-          Get started by editing <code>src/App.js</code>
-        </p>
-        <div className="links">
-          <a
-            href="https://mockbee.netlify.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explore mockBee
-          </a>
-          <a
-            href="https://mockbee.netlify.app/docs/api/introduction"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API Documentation
-          </a>
-          <a
-            href="https://github.com/neogcamp/mockBee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contribute
-          </a>
+    <div className="App grid grid-column">
+      <StoreProvider>
+        <Header />
+        <div className="main">
+          <Routes>
+            <Route path="/products" element={<Products />} />
+            <Route path="/mock" element={<Mockman />} />
+          </Routes>
         </div>
-      </header>
+      </StoreProvider>
     </div>
   );
 }
