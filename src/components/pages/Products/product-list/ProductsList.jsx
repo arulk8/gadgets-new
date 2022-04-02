@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ProductCard from "../../../Common/Components/ProductCard/ProductCard";
-import { useAsync, methods } from "../../../Common/Hooks/AsyncHook";
+import { useAsync, METHODS } from "../../../Common/Hooks/AsyncHook";
 import { useStore } from "../../../../store/app-store-context";
 import { useFilterCtx } from "../context/product-filter-context";
 import filtersCompose from "../products-filter/utils/filterCompose";
-import actions from "../../../../store/actions";
+import actionTypes from "../../../../store/actionTypes";
 import "./product-list.css";
 
 const API_URL = "/api/products";
@@ -13,9 +13,9 @@ const ProductsList = () => {
   const { appliedFilters } = useFilterCtx();
 
   const dispatcher = (data) =>
-    dispatch({ type: actions.PRODUCTS, payload: data.products });
+    dispatch({ type: actionTypes.PRODUCTS, payload: data.products });
   const { isLoading, serverError } = useAsync(
-    methods.GET,
+    METHODS.GET,
     API_URL,
     {},
     dispatcher

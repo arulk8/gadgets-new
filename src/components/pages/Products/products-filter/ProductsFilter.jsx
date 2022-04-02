@@ -1,7 +1,7 @@
 import React from "react";
-import { useAsync, methods } from "../../../Common/Hooks/AsyncHook";
+import { useAsync, METHODS } from "../../../Common/Hooks/AsyncHook";
 import { useStore } from "../../../../store/app-store-context";
-import actions from "../../../../store/actions";
+import actionTypes from "../../../../store/actionTypes";
 import FilterCategory from "./filter-category/FilterCategory";
 import { useFilterCtx } from "../context/product-filter-context";
 import "./product-filter.css";
@@ -21,9 +21,9 @@ const ProductsFilter = () => {
   const { sortOrder, priceRange, selectedCategories, selectedRating } =
     appliedFilters;
   const dispatcher = (data) =>
-    dispatch({ type: actions.CATEGORIES, payload: data.categories });
+    dispatch({ type: actionTypes.CATEGORIES, payload: data.categories });
   const { isLoading, serverError } = useAsync(
-    methods.GET,
+    METHODS.GET,
     API_URL,
     {},
     dispatcher

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const methods = {
+const METHODS = {
   GET: "get",
   POST: "post",
 };
@@ -31,4 +31,4 @@ const useAsync = (method, url, body, dispatcher) => {
   return { isLoading, serverError };
 };
 
-export { useAsync, methods };
+export { useAsync, METHODS };

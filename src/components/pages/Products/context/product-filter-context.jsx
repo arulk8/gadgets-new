@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import actions from "./actions";
+import actionTypes from "./actionTypes";
 const initialState = {
   sortOrder: "",
   priceRange: { start: 100 },
@@ -11,13 +11,13 @@ const filterReducer = (state, action) => {
   const { type, payload } = action;
   console.log(type, payload);
   switch (type) {
-    case actions.SORT: {
+    case actionTypes.SORT: {
       return { ...state, sortOrder: payload };
     }
-    case actions.PRICE_RANGE: {
+    case actionTypes.PRICE_RANGE: {
       return { ...state, priceRange: { ...payload } };
     }
-    case actions.CATEGORY: {
+    case actionTypes.CATEGORY: {
       const { key, value } = payload;
       const { selectedCategories } = state;
       let newSelectedCategories;
@@ -34,10 +34,10 @@ const filterReducer = (state, action) => {
       return { ...state, selectedCategories: newSelectedCategories };
     }
 
-    case actions.RATING: {
+    case actionTypes.RATING: {
       return { ...state, selectedRating: payload };
     }
-    case actions.RESET: {
+    case actionTypes.RESET: {
       return { ...initialState };
     }
     default:
@@ -51,16 +51,19 @@ function FilterProvider({ children }) {
     initialState
   );
   const setSortLowToHigh = () =>
-    filterDispatch({ type: actions.SORT, payload: "LOW_TO_HIGH" });
+    filterDispatch({ type: actionTypes.SORT, payload: "LOW_TO_HIGH" });
   const setSortHighToLow = () =>
-    filterDispatch({ type: actions.SORT, payload: "HIGH_TO_LOW" });
+    filterDispatch({ type: actionTypes.SORT, payload: "HIGH_TO_LOW" });
   const filterByPrice = (value) =>
-    filterDispatch({ type: actions.PRICE_RANGE, payload: { start: value } });
+    filterDispatch({
+      type: actionTypes.PRICE_RANGE,
+      payload: { start: value },
+    });
   const filterByCategory = (value) =>
-    filterDispatch({ type: actions.CATEGORY, payload: value });
+    filterDispatch({ type: actionTypes.CATEGORY, payload: value });
   const filterByRating = (value) =>
-    filterDispatch({ type: actions.RATING, payload: value });
-  const clearFilter = () => filterDispatch({ type: actions.RESET });
+    filterDispatch({ type: actionTypes.RATING, payload: value });
+  const clearFilter = () => filterDispatch({ type: actionTypes.RESET });
   return (
     <FilterContext.Provider
       value={{
