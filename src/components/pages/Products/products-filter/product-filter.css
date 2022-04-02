@@ -1,0 +1,9 @@
+.price__range {
+  width: 95%;
+  background-color: var(--secondary);
+  margin: 0.8rem 0;
+}
+
+.category_form {
+  padding: var(--gap-8) 0;
+}

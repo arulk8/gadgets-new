@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Mockman from "mockman-js";
 import Header from "./components/Header/Header";
-import Products from "./components/Products/Products";
+import Products from "./components/pages/Products/Products";
 import { StoreProvider } from "./store/app-store-context";
 
 function App() {

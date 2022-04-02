@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./Header.css";
 
 const Header = () => {
@@ -5,9 +6,9 @@ const Header = () => {
     <header className="main-header flex-row flex-aic py-8">
       <div className="header__left--container flex-row flex-aic margin-auto--r">
         <h2 className="logo__name font-bold">
-          <a className="no-underline c-aux" href="./index.html">
+          <NavLink className="no-underline c-aux" to="/">
             Gadgetsnew
-          </a>
+          </NavLink>
         </h2>
       </div>
 
@@ -27,26 +28,26 @@ const Header = () => {
         <nav className="main-nav">
           <ul className="main-nav__links flex-row flex-aic list-style-none">
             <li className="main-nav__link px-5 font-medium">
-              <a className="no-underline c-aux" href="./auth/index.html">
+              <NavLink className="no-underline c-aux" to="/login">
                 Login
-              </a>
+              </NavLink>
             </li>
             <li className="main-nav__link px-5 font-medium">
-              <a className="no-underline c-aux" href="./whishlist/index.html">
+              <NavLink className="no-underline c-aux" to="/wishlist">
                 <div className="badge">
                   <i className="fas fa-heart"></i>
                   <span className="badge__count">3</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li className="main-nav__link px-5 font-medium">
-              <a className="no-underline c-aux" href="./cart/index.html">
+              <NavLink className="no-underline c-aux" to="/cart">
                 <div className="badge">
                   <i className="fas fa-shopping-cart"></i>
                   <span className="badge__count">3</span>
                 </div>
                 Cart
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

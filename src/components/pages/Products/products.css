@@ -1,0 +1,18 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.side__bar {
+  width: 45%;
+  height: 100%;
+  padding: var(--gap-8);
+}
+
+@media screen and (min-width: 40rem) {
+  .side__bar {
+    width: 20%;
+  }
+}
