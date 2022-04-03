@@ -8,7 +8,7 @@ const Header = () => {
   const {
     isLoggedIn,
     sessionData: { emailData = "" },
-    logout,
+    actions,
   } = useStore();
   const inital = getInitial(emailData);
 
@@ -16,7 +16,7 @@ const Header = () => {
     <div className="no-underline c-aux">
       {inital}
       {" ["}
-      <a onClick={logout} className="btn__link btn__link--error">
+      <a onClick={actions.logout} className="btn__link btn__link--error">
         logout
       </a>
       {"]"}
