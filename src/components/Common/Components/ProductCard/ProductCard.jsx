@@ -1,6 +1,6 @@
 import React from "react";
 import "./product-card.css";
-import laptop from "../../../../assests/img/apple.jpg";
+import laptop from "../../../../assets/images/apple.png";
 const ProductCard = (props) => {
   const { name, brand, price } = props;
   return (
