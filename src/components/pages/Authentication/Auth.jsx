@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
 import { useStore } from "../../../store/app-store-context";
 
 import "./auth.css";
