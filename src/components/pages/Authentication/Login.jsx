@@ -4,17 +4,17 @@ import { useStore } from "../../../store/app-store-context";
 import { emailValidate, passwordValidate } from "../../../util";
 import "./auth.css";
 
-const Auth = ({ type }) => {
-  const getEmail = () =>
-    type == "login"
-      ? JSON.parse(localStorage.getItem("rememberme")) || " "
-      : "";
+const Login = () => {
+  const getEmail = () => JSON.parse(localStorage.getItem("rememberme")) || "";
+
   const [email, setEmail] = useState(getEmail);
-  const [isEmailValid, setIsEmailVaild] = useState(true);
   const [password, setPassword] = useState("");
-  const [isPasswordValid, setIsPasswordVaild] = useState(true);
+
+  const [isEmailValid, setIsEmailVaild] = useState(false);
+  const [isPasswordValid, setIsPasswordVaild] = useState(false);
+
   const [rememberMe, setRememberMe] = useState(false);
-  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [isFormValid, setFormValid] = useState(false);
   const { isLoggedIn, actions } = useStore();
   const navigate = useNavigate();
 
@@ -24,10 +24,16 @@ const Auth = ({ type }) => {
     }
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    setFormValid(isEmailValid && isPasswordValid);
+  }, [isEmailValid, isPasswordValid]);
+
   const loginHandler = (e) => {
     e.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
     actions.login({ email, password });
-
     if (rememberMe) {
       localStorage.setItem("rememberme", JSON.stringify(email));
     } else {
@@ -37,25 +43,15 @@ const Auth = ({ type }) => {
     setPassword("");
   };
 
-  const signUpHandler = (e) => {
-    e.preventDefault();
-    if (!acceptTerms) {
-      return;
-    }
-    actions.authenticate({ email, password });
-    setEmail("");
-    setPassword("");
-  };
-  const onEmailChange = (e) => {
-    const isEmailValid = emailValidate(e.target.value);
+  const onEmailChange = (value) => {
+    const isEmailValid = emailValidate(value);
     setIsEmailVaild(isEmailValid);
   };
 
-  const onPasswordChange = (e) => {
-    const isPasswordValid = passwordValidate(e.target.value);
+  const onPasswordChange = (value) => {
+    const isPasswordValid = passwordValidate(value);
     setIsPasswordVaild(isPasswordValid);
   };
-  const title = type === "login" ? "Login" : "Sign Up";
 
   const confirmationBuilder = (label, handler, checked) => {
     return (
@@ -75,14 +71,11 @@ const Auth = ({ type }) => {
   const onClickRememeberMe = (e) => {
     setRememberMe(e.target.checked);
   };
-  const onClickAcceptTerms = (e) => {
-    setAcceptTerms(e.target.checked);
-  };
+
   const getConfirmationSection = () => {
-    const confirmationText =
-      type === "login" ? "Remember me" : "I accept all Terms & Conditions";
-    const handler = type === "login" ? onClickRememeberMe : onClickAcceptTerms;
-    const checked = type === "login" ? rememberMe : acceptTerms;
+    const confirmationText = "Remember me";
+    const handler = onClickRememeberMe;
+    const checked = rememberMe;
     return confirmationBuilder(confirmationText, handler, checked);
   };
   const userDetails = (
@@ -96,14 +89,15 @@ const Auth = ({ type }) => {
           className="input"
           type="text"
           value={email}
-          placeholder="tony.stark@xyz.com"
-          onChange={(e) => setEmail(e.target.value)}
-          onBlur={onEmailChange}
+          placeholder="tony.stark@gmail.com"
+          autoComplete="off"
+          onInput={(e) => setEmail(e.target.value)}
+          onBlur={(e) => onEmailChange(e.target.value)}
         />
-        {!isEmailValid && (
+        {!isEmailValid && !!email && (
           <span className="inline-block validation__msg input__error">
             <i className="fas fa-exclamation-triangle"></i>
-            Email is invalid
+            <span className="px-3">Email is invalid</span>
           </span>
         )}
       </div>
@@ -118,10 +112,10 @@ const Auth = ({ type }) => {
           placeholder="*************"
           autoComplete="on"
           value={password}
-          onBlur={onPasswordChange}
+          onBlur={(e) => onPasswordChange(e.target.value)}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {!isPasswordValid && (
+        {!isPasswordValid && !!password && (
           <span className="inline-block validation__msg input__error">
             <i className="fas fa-exclamation-triangle"></i>
             The password must have minimum and maximum of 8 and 12 characters
@@ -132,50 +126,41 @@ const Auth = ({ type }) => {
       </div>
     </>
   );
-  const classNames = acceptTerms
+  const classNames = isFormValid
     ? "btn btn__primary my-5"
     : "btn btn__secondary my-5";
-  const formButton =
-    type === "login" ? (
-      <button
-        type="button"
-        className="btn btn__primary my-5"
-        onClick={loginHandler}
-        disable={"true"}
-      >
-        Login
-      </button>
-    ) : (
-      <button type="button" className={classNames} onClick={signUpHandler}>
-        Create New Account
-      </button>
-    );
-  const redirect =
-    type === "login" ? (
-      <Link to="/signup" className="no-underline">
-        Create New Account {">"}
-      </Link>
-    ) : (
-      <Link to="/login" className="no-underline">
-        Already have an account {">"}
-      </Link>
-    );
+  console.log(classNames, isFormValid);
+  const formButton = (
+    <button
+      type="button"
+      className={classNames}
+      onClick={loginHandler}
+      disable={"true"}
+    >
+      Login
+    </button>
+  );
+  const redirect = (
+    <Link to="/signup" className="no-underline">
+      Create New Account {">"}
+    </Link>
+  );
+
   return (
     <div className="auth__container flex-column flex-jc">
       <div className="login__container">
         <section className="login__label">
-          <h3>{title}</h3>
+          <h3>Login</h3>
         </section>
         <section>
           <form className="login__form form">
             {userDetails}
             <div className="flex-row flex-jc">
               {getConfirmationSection()}
-              {type === "login" && (
-                <div className="margin-auto--l text-highlight">
-                  Forgot your password?
-                </div>
-              )}
+
+              <div className="margin-auto--l text-highlight">
+                Forgot your password?
+              </div>
             </div>
             {formButton}
           </form>
@@ -188,4 +173,4 @@ const Auth = ({ type }) => {
   );
 };
 
-export default Auth;
+export default Login;
