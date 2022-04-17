@@ -13,7 +13,6 @@ const compose = (...args) => {
 };
 
 const filtersCompose = (appliedFilters) => {
-  console.log(appliedFilters);
   const { sortOrder, priceRange, selectedCategories, selectedRating } =
     appliedFilters;
   const filters = [];

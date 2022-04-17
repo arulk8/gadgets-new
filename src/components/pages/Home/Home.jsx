@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useStore } from "../../../store/app-store-context";
 import "./Home.css";
 const Home = () => {
@@ -6,8 +7,8 @@ const Home = () => {
     <>
       <section className="banner__container">
         <div className="flex-row flex-jc-se">
-          <a
-            href="./products/index.html"
+          <Link
+            to="/products/phone"
             className="banner card card__v no-underline"
           >
             <img
@@ -16,9 +17,9 @@ const Home = () => {
               alt=""
             />
             <span className="banner__text"> Phone </span>
-          </a>
-          <a
-            href="./products/index.html"
+          </Link>
+          <Link
+            to="/products/laptop"
             className="banner card card__v no-underline"
           >
             <img
@@ -27,9 +28,9 @@ const Home = () => {
               alt=""
             />
             <span className="banner__text"> Phone </span>
-          </a>
-          <a
-            href="./products/index.html"
+          </Link>
+          <Link
+            to="/products/headphone"
             className="banner card card__v no-underline"
           >
             <img
@@ -38,9 +39,9 @@ const Home = () => {
               alt=""
             />
             <span className="banner__text"> Phone </span>
-          </a>
-          <a
-            href="./products/index.html"
+          </Link>
+          <Link
+            to="/products/watch"
             className="banner card card__v no-underline"
           >
             <img
@@ -49,7 +50,7 @@ const Home = () => {
               alt=""
             />
             <span className="banner__text"> Phone </span>
-          </a>
+          </Link>
         </div>
       </section>
       <section className="hero__section">
