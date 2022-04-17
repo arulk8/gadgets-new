@@ -1,7 +1,32 @@
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react/cjs/react.development";
+import { useStore } from "../../store/app-store-context";
+import { getInitial } from "../../util";
 import "./Header.css";
 
 const Header = () => {
+  const {
+    isLoggedIn,
+    sessionData: { emailData = "" },
+    actions,
+  } = useStore();
+  const inital = getInitial(emailData);
+
+  const data = isLoggedIn ? (
+    <div className="no-underline c-aux">
+      {inital}
+      {" ["}
+      <a onClick={actions.logout} className="btn__link btn__link--error">
+        logout
+      </a>
+      {"]"}
+    </div>
+  ) : (
+    <NavLink className="no-underline c-aux" to="/login">
+      Login
+    </NavLink>
+  );
+
   return (
     <header className="main-header flex-row flex-aic py-8">
       <div className="header__left--container flex-row flex-aic margin-auto--r">
@@ -27,11 +52,7 @@ const Header = () => {
       <div className="header__right--container margin-auto--l">
         <nav className="main-nav">
           <ul className="main-nav__links flex-row flex-aic list-style-none">
-            <li className="main-nav__link px-5 font-medium">
-              <NavLink className="no-underline c-aux" to="/login">
-                Login
-              </NavLink>
-            </li>
+            <li className="main-nav__link px-5 font-medium">{data}</li>
             <li className="main-nav__link px-5 font-medium">
               <NavLink className="no-underline c-aux" to="/wishlist">
                 <div className="badge">
