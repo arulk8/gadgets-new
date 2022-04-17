@@ -33,7 +33,7 @@ const storeReducer = (state, action) => {
     case actionTypes.PRODUCTS:
       return { ...state, products: [...payload] };
     case actionTypes.ADD_TO_WISHLIST:
-      const newWishlist = [...state.wishlist, { ...payload }];
+      const newWishlist = [...payload];
       return { ...state, wishlist: newWishlist };
     case actionTypes.REMOVE_FROM_WISHLIST: {
       const newWishlist = [...state.wishlist].filter(
