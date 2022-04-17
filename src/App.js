@@ -5,9 +5,12 @@ import Header from "./components/Header/Header";
 import Products from "./components/pages/Products/Products";
 import { StoreProvider } from "./store/app-store-context";
 import Home from "./components/pages/Home/Home";
-import Auth from "./components/pages/Authentication/Auth";
+
 import Cart from "./components/pages/Cart/Cart";
 import Wishlist from "./components/pages/Whishlist/Wishlist";
+import Login from "./components/pages/Authentication/Login";
+import SignUp from "./components/pages/Authentication/SignUp";
+
 function App() {
   return (
     <div className="App grid grid-column">
@@ -17,8 +20,8 @@ function App() {
           <Routes>
             <Route path="/products/:id" element={<Products />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/login" element={<Auth type="login" />} />
-            <Route path="/signup" element={<Auth type="signup" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/" element={<Home />} />

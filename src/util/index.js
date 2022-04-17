@@ -1,3 +1,4 @@
 import getInitial from "./generateInitial";
-
-export { getInitial };
+import emailValidate from "./emailValidator";
+import passwordValidate from "./passwordValidator";
+export { getInitial, emailValidate, passwordValidate };
