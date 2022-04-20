@@ -9,6 +9,8 @@ const Header = () => {
     isLoggedIn,
     sessionData: { emailData = "" },
     actions,
+    wishlist = [],
+    cart = [],
   } = useStore();
   const inital = getInitial(emailData);
 
@@ -57,7 +59,7 @@ const Header = () => {
               <NavLink className="no-underline c-aux" to="/wishlist">
                 <div className="badge">
                   <i className="fas fa-heart"></i>
-                  <span className="badge__count">3</span>
+                  <span className="badge__count">{wishlist.length}</span>
                 </div>
               </NavLink>
             </li>
@@ -65,7 +67,7 @@ const Header = () => {
               <NavLink className="no-underline c-aux" to="/cart">
                 <div className="badge">
                   <i className="fas fa-shopping-cart"></i>
-                  <span className="badge__count">3</span>
+                  <span className="badge__count">{cart.length}</span>
                 </div>
                 Cart
               </NavLink>

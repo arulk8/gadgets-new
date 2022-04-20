@@ -1,7 +1,15 @@
 import { createContext, useContext, useReducer } from "react";
 import actionTypes from "./actionTypes";
-import axios from "axios";
-const initSession = {
+import {
+  logoutAction,
+  signInAction,
+  signUpAction,
+  addToWishlistAction,
+  removeFromWishlistAction,
+  addToCartAction,
+} from "./actions";
+
+export const initSession = {
   emailData: "",
   encodedToken: "",
   createdAt: null,
@@ -10,82 +18,13 @@ const initSession = {
 const init = {
   categories: [],
   products: [],
+  wishlist: [],
   sessionData: { ...initSession },
   isLoggedIn: false,
 };
 
 const StoreContext = createContext(init);
 
-const signUpAction = (dispatch, { email, password }) => {
-  (async () => {
-    try {
-      const {
-        data: {
-          createdUser: { email: emailData, createdAt, updatedAt },
-          encodedToken,
-        },
-      } = await axios.post("/api/auth/signup", {
-        email,
-        password,
-      });
-      const sessionData = {
-        emailData,
-        encodedToken,
-        createdAt,
-        updatedAt,
-      };
-
-      localStorage.setItem("authSession", JSON.stringify(encodedToken));
-      dispatch({
-        type: actionTypes.SIGN_UP,
-        payload: { sessionData, isLoggedIn: true },
-      });
-    } catch (err) {
-      dispatch({
-        type: actionTypes.SIGN_UP,
-        payload: { sessionData: { ...initSession }, isLoggedIn: false },
-      });
-    }
-  })();
-};
-const signInAction = (dispatch, { email, password }) => {
-  (async () => {
-    try {
-      const {
-        data: {
-          encodedToken,
-          foundUser: { email: emailData, createdAt, updatedAt, cart, wishlist },
-        },
-      } = await axios.post("/api/auth/login", {
-        email,
-        password,
-      });
-
-      const sessionData = {
-        emailData,
-        encodedToken,
-        createdAt,
-        updatedAt,
-      };
-      localStorage.setItem("authSession", JSON.stringify(encodedToken));
-      dispatch({
-        type: actionTypes.SIGN_IN,
-        payload: { sessionData, isLoggedIn: true, cart, wishlist },
-      });
-    } catch (err) {
-      console.log(err);
-      dispatch({
-        type: actionTypes.SIGN_IN,
-        payload: { sessionData: { ...initSession }, isLoggedIn: false },
-      });
-    }
-  })();
-};
-
-const logoutAction = (dispatch) => {
-  localStorage.removeItem("authSession");
-  dispatch({ type: actionTypes.LOGOUT });
-};
 const storeReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -93,6 +32,19 @@ const storeReducer = (state, action) => {
       return { ...state, categories: [...payload] };
     case actionTypes.PRODUCTS:
       return { ...state, products: [...payload] };
+    case actionTypes.ADD_TO_WISHLIST:
+      const newWishlist = [...payload];
+      return { ...state, wishlist: newWishlist };
+    case actionTypes.REMOVE_FROM_WISHLIST: {
+      const newWishlist = [...state.wishlist].filter(
+        (product) => product.id !== payload
+      );
+      return { ...state, wishlist: newWishlist };
+    }
+
+    case actionTypes.ADD_TO_CART: {
+      return { ...state, cart: [...payload] };
+    }
     case actionTypes.SIGN_UP:
       return {
         ...state,
@@ -116,11 +68,18 @@ const StoreProvider = ({ children }) => {
   const authenticate = (authData) => signUpAction(dispatch, authData);
   const login = (authData) => signInAction(dispatch, authData);
   const logout = () => logoutAction(dispatch);
+  const addToCart = (product) => addToCartAction(dispatch, product);
+  const addToWishlist = (product) => addToWishlistAction(dispatch, product);
+  const removeFromWishlist = (product) =>
+    removeFromWishlistAction(dispatch, product);
   const actions = {
     dispatch,
     authenticate,
     login,
     logout,
+    addToWishlist,
+    addToCart,
+    removeFromWishlist,
   };
   return (
     <StoreContext.Provider value={{ ...store, dispatch, actions }}>
