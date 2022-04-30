@@ -74,7 +74,11 @@ const logoutAction = (dispatch) => {
   dispatch({ type: actionTypes.LOGOUT });
 };
 
-const addToWishlistAction = (dispatch, product) => {
+const addToWishlistAction = (dispatch, wishlistItem) => {
+  const product = { ...wishlistItem };
+  delete product.addedToCart;
+  delete product.wishlist;
+
   (async () => {
     try {
       const {
@@ -88,7 +92,7 @@ const addToWishlistAction = (dispatch, product) => {
           },
         }
       );
-      console.log(wishlist);
+
       dispatch({
         type: actionTypes.ADD_TO_WISHLIST,
         payload: wishlist,
@@ -112,7 +116,7 @@ const removeFromWishlistAction = (dispatch, product) => {
           authorization: localStorage.getItem("authSession"),
         },
       });
-      console.log(data);
+
       dispatch({
         type: actionTypes.REMOVE_FROM_WISHLIST,
         payload: _id,
@@ -126,7 +130,10 @@ const removeFromWishlistAction = (dispatch, product) => {
   })();
 };
 
-const addToCartAction = (dispatch, product) => {
+const addToCartAction = (dispatch, cartItem) => {
+  const product = { ...cartItem };
+  delete product.addedToCart;
+  delete product.wishlist;
   (async () => {
     try {
       const {
@@ -140,7 +147,7 @@ const addToCartAction = (dispatch, product) => {
           },
         }
       );
-      console.log(cart);
+
       dispatch({
         type: actionTypes.ADD_TO_CART,
         payload: cart,
@@ -155,7 +162,6 @@ const addToCartAction = (dispatch, product) => {
 };
 
 const removeFromCartAction = (dispatch, product) => {
-  console.log(product);
   const { _id } = product;
   (async () => {
     try {
@@ -166,7 +172,7 @@ const removeFromCartAction = (dispatch, product) => {
           authorization: localStorage.getItem("authSession"),
         },
       });
-      console.log(cart);
+
       dispatch({
         type: actionTypes.REMOVE_FROM_CART,
         payload: cart,
@@ -183,7 +189,6 @@ const removeFromCartAction = (dispatch, product) => {
 const updateCartItemAction = (dispatch, cartInfo) => {
   const { _id, action, qty } = cartInfo;
   if (qty === 1 && action === "decrement") {
-    console.log(qty);
     removeFromCartAction(dispatch, cartInfo);
     return;
   }
@@ -204,8 +209,6 @@ const updateCartItemAction = (dispatch, cartInfo) => {
           },
         }
       );
-
-      console.log(cart);
       dispatch({
         type: actionTypes.ADD_TO_CART,
         payload: cart,

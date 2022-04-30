@@ -29,7 +29,7 @@ const Home = () => {
             <span className="banner__text"> Laptop </span>
           </Link>
           <Link
-            to="/products/headphone"
+            to="/products/earphone"
             className="banner card card__v no-underline"
           >
             <img className="card__image" src={earPhone} alt="Ear Phone" />

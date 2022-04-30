@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router";
 import { useAsync, METHODS } from "../../../Common/Hooks/AsyncHook";
 import { useStore } from "../../../../store/app-store-context";
 import actionTypes from "../../../../store/actionTypes";
@@ -8,6 +9,8 @@ import "./product-filter.css";
 const API_URL = "/api/categories";
 const ProductsFilter = () => {
   const { categories, dispatch } = useStore();
+  let { id } = useParams();
+
   const {
     appliedFilters,
     clearFilter,
@@ -18,6 +21,12 @@ const ProductsFilter = () => {
     filterByRating,
   } = useFilterCtx();
 
+  useEffect(() => {
+    filterByCategory({
+      key: id,
+      value: true,
+    });
+  }, []);
   const { sortOrder, priceRange, selectedCategories, selectedRating } =
     appliedFilters;
   const dispatcher = (data) =>
@@ -30,7 +39,6 @@ const ProductsFilter = () => {
   );
 
   const onSelectCategory = (key, value) => {
-    console.log(key, value);
     filterByCategory({
       key,
       value,

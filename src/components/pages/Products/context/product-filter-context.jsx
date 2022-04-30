@@ -9,7 +9,7 @@ const initialState = {
 const FilterContext = createContext(initialState);
 const filterReducer = (state, action) => {
   const { type, payload } = action;
-  console.log(type, payload);
+
   switch (type) {
     case actionTypes.SORT: {
       return { ...state, sortOrder: payload };
