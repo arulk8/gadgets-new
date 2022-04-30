@@ -54,6 +54,9 @@
 .promo_content {
   padding: 3rem;
 }
+.promo > .card__h {
+  width: 100%;
+}
 
 @media screen and (min-width: 40rem) {
   .banner__container {

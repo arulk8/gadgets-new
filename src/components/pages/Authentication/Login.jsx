@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useStore } from "../../../store/app-store-context";
 import { emailValidate, passwordValidate } from "../../../util";
 import "./auth.css";
 
 const Login = () => {
   const getEmail = () => JSON.parse(localStorage.getItem("rememberme")) || "";
-
+  const { state } = useLocation();
   const [email, setEmail] = useState(getEmail);
   const [password, setPassword] = useState("");
 
@@ -19,8 +19,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const path = state?.from?.path || "/";
     if (isLoggedIn) {
-      navigate("/");
+      navigate(path);
     }
   }, [isLoggedIn]);
 
@@ -41,6 +42,12 @@ const Login = () => {
     }
     setEmail("");
     setPassword("");
+  };
+
+  const guestLogin = () => {
+    const email = "adarshbalika@gmail.com";
+    const password = "adarsh@1234";
+    actions.login({ email, password });
   };
 
   const onEmailChange = (value) => {
@@ -129,7 +136,6 @@ const Login = () => {
   const classNames = isFormValid
     ? "btn btn__primary my-5"
     : "btn btn__secondary my-5";
-  console.log(classNames, isFormValid);
   const formButton = (
     <button
       type="button"
@@ -138,6 +144,15 @@ const Login = () => {
       disable={"true"}
     >
       Login
+    </button>
+  );
+  const guestLoginBtn = (
+    <button
+      type="button"
+      className="btn btn__primary my-5"
+      onClick={guestLogin}
+    >
+      Guest Login
     </button>
   );
   const redirect = (
@@ -163,6 +178,7 @@ const Login = () => {
               </div>
             </div>
             {formButton}
+            {guestLoginBtn}
           </form>
           <div className="margin-auto--l text-highlight font-medium">
             {redirect}

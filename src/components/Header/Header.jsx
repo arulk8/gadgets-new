@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
 import { useStore } from "../../store/app-store-context";
 import { getInitial } from "../../util";
 import "./Header.css";
