@@ -6,10 +6,19 @@ import { useFilterCtx } from "../context/product-filter-context";
 import filtersCompose from "../products-filter/utils/filterCompose";
 import actionTypes from "../../../../store/actionTypes";
 import "./product-list.css";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "/api/products";
 const ProductsList = () => {
-  const { products, actions, dispatch, wishlist = [], cart = [] } = useStore();
+  const {
+    isLoggedIn,
+    products,
+    actions,
+    dispatch,
+    wishlist = [],
+    cart = [],
+  } = useStore();
+  const navigate = useNavigate();
   const { appliedFilters } = useFilterCtx();
   const { addToWishlist, removeFromWishlist, addToCart } = actions;
   const dispatcher = (data) =>
@@ -20,21 +29,27 @@ const ProductsList = () => {
     {},
     dispatcher
   );
-  const wishlistIds = wishlist.map((product) => product.id);     
-  const cartIds = cart.map((product) => product.id);
+  const wishlistIds = wishlist.map((product) => product._id);
+  const cartIds = cart.map((product) => product._id);
   const addedWishlist = products.map((product) => {
     const newProduct = { ...product };
-    if (wishlistIds.indexOf(product.id) >= 0) {
+    if (wishlistIds.indexOf(product._id) >= 0) {
       newProduct.wishlist = true;
     }
-    if (cartIds.indexOf(product.id) >= 0) {
+    if (cartIds.indexOf(product._id) >= 0) {
       newProduct.addedToCart = true;
     }
     return newProduct;
   });
   const composedFilter = filtersCompose(appliedFilters);
   const filteredProducts = composedFilter(addedWishlist);
+  const addToCartHandler = (product) => {
+    if (!isLoggedIn) {
+      return navigate("/login", { state: { from: { path: "/products" } } });
+    }
 
+    return addToCart({ ...product, qty: 1 });
+  };
   return (
     <article className="product__list">
       <section className="product_section">
@@ -44,11 +59,11 @@ const ProductsList = () => {
       <main className="products">
         {filteredProducts?.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             {...product}
             addToWishlist={addToWishlist.bind(null, product)}
             removeFromWishlist={removeFromWishlist.bind(null, product)}
-            addToCart={addToCart.bind(null, product)}
+            addToCart={() => addToCartHandler(product)}
           />
         ))}
       </main>

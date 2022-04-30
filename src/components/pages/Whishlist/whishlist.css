@@ -2,15 +2,8 @@
   width: 80%;
   margin: auto;
 }
-.card__v {
-  background-color: var(--white);
-  margin: 1rem 1.5rem;
-}
 .wishlist__title {
   text-align: center;
-}
-.container {
-  background-color: var(--o-white);
 }
 
 .wishlist__container {

@@ -104,10 +104,10 @@ const addToWishlistAction = (dispatch, product) => {
 };
 
 const removeFromWishlistAction = (dispatch, product) => {
-  const { id } = product;
+  const { _id } = product;
   (async () => {
     try {
-      const data = await axios.delete(`${WISHLIST_URL}/${id}`, {
+      const data = await axios.delete(`${WISHLIST_URL}/${_id}`, {
         headers: {
           authorization: localStorage.getItem("authSession"),
         },
@@ -115,7 +115,7 @@ const removeFromWishlistAction = (dispatch, product) => {
       console.log(data);
       dispatch({
         type: actionTypes.REMOVE_FROM_WISHLIST,
-        payload: id,
+        payload: _id,
       });
     } catch (err) {
       dispatch({
@@ -155,23 +155,65 @@ const addToCartAction = (dispatch, product) => {
 };
 
 const removeFromCartAction = (dispatch, product) => {
-  const { id } = product;
+  console.log(product);
+  const { _id } = product;
   (async () => {
     try {
-      const data = await axios.delete(`${CART_URL}/${id}`, {
+      const {
+        data: { cart },
+      } = await axios.delete(`${CART_URL}/${_id}`, {
         headers: {
           authorization: localStorage.getItem("authSession"),
         },
       });
-      console.log(data);
+      console.log(cart);
       dispatch({
         type: actionTypes.REMOVE_FROM_CART,
-        payload: id,
+        payload: cart,
       });
     } catch (err) {
       dispatch({
         type: actionTypes.REMOVE_FROM_CART,
         payload: null,
+      });
+    }
+  })();
+};
+
+const updateCartItemAction = (dispatch, cartInfo) => {
+  const { _id, action, qty } = cartInfo;
+  if (qty === 1 && action === "decrement") {
+    console.log(qty);
+    removeFromCartAction(dispatch, cartInfo);
+    return;
+  }
+  (async () => {
+    try {
+      const {
+        data: { cart },
+      } = await axios.post(
+        `${CART_URL}/${_id}`,
+        {
+          action: {
+            type: action,
+          },
+        },
+        {
+          headers: {
+            authorization: localStorage.getItem("authSession"),
+          },
+        }
+      );
+
+      console.log(cart);
+      dispatch({
+        type: actionTypes.ADD_TO_CART,
+        payload: cart,
+      });
+    } catch (err) {
+      dispatch({
+        type: actionTypes.ADD_TO_CART,
+        payload: [],
       });
     }
   })();
@@ -183,4 +225,6 @@ export {
   addToWishlistAction,
   removeFromWishlistAction,
   addToCartAction,
+  updateCartItemAction,
+  removeFromCartAction,
 };

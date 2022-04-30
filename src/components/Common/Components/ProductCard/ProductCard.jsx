@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./product-card.css";
+import { getTag } from "../../../../util/index";
 
 const ProductCard = (props) => {
   const navigate = useNavigate();
@@ -14,9 +15,10 @@ const ProductCard = (props) => {
     addToCart,
     addedToCart,
     rating,
-    category,
     discount,
     img,
+    tag,
+    stock,
   } = props;
   const image = require(`../../../../assets/images/${img}.png`).default;
   const wishListClassName = "fa-heart " + (wishlist ? "fas" : "far");
@@ -24,10 +26,21 @@ const ProductCard = (props) => {
   const sellingPrice = !!discount
     ? price - Math.ceil((price * discount) / 100)
     : price;
+  const badge = getTag(stock, tag);
+  const outOfStock = stock === 0;
   return (
-    <section className="card card__v">
+    <section className="card card__v bg__o--white">
       <header className="card__header flex-column flex-aic flex-jc">
         <div className="badge-icon__container flex-row flex-aic">
+          {badge && (
+            <span
+              className={`card__badge font-light ${
+                outOfStock ? "card__badge--red" : ""
+              }`}
+            >
+              {badge}
+            </span>
+          )}
           <span className="card__icons flex-column">
             <button className="btn__icon font-semibold btn__icon--danger hide">
               <i className="far fa-times-circle"></i>
@@ -42,6 +55,11 @@ const ProductCard = (props) => {
         </div>
 
         <img src={image} alt={name} className="card__image" />
+        {outOfStock && (
+          <div className="card__overlay flex-row flex-aic flex-jc">
+            Out of Stock
+          </div>
+        )}
       </header>
       <main className="card__body">
         <div className="card__content">
@@ -75,8 +93,10 @@ const ProductCard = (props) => {
               </button>
             ) : (
               <button
-                onClick={addToCart}
-                className="card__button btn__go--cart font-medium"
+                onClick={outOfStock ? () => {} : addToCart}
+                className={`card__button  font-medium ${
+                  outOfStock ? "btn__secondary" : "btn__go--cart"
+                }`}
               >
                 Add to Cart
               </button>

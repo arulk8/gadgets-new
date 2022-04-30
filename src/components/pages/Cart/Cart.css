@@ -12,10 +12,6 @@
   width: 80%;
   margin: auto;
 }
-.card {
-  background-color: var(--white);
-  margin: 1rem 1.5rem;
-}
 
 .cart__price {
   margin-top: 1rem;
@@ -44,6 +40,9 @@
 }
 .card__h {
   width: 90%;
+}
+.cart_action {
+  font-size: inherit;
 }
 @media screen and (min-width: 40rem) {
   .cart__items-price {

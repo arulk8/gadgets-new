@@ -10,6 +10,7 @@ import Cart from "./components/pages/Cart/Cart";
 import Wishlist from "./components/pages/Whishlist/Wishlist";
 import Login from "./components/pages/Authentication/Login";
 import SignUp from "./components/pages/Authentication/SignUp";
+import ProtectedRoute from "./components/Common/Components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
@@ -22,8 +23,23 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/wishlist" element={<Wishlist />} />
+
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute path="/cart">
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                <ProtectedRoute path="/wishlist">
+                  <Wishlist />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/" element={<Home />} />
             <Route path="/mock" element={<Mockman />} />
           </Routes>

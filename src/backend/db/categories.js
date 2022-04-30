@@ -21,4 +21,9 @@ export const categories = [
     categoryName: "Mobile Phones",
     categoryKey: "phone",
   },
+  {
+    _id: uuid(),
+    categoryName: "Smart Watches",
+    categoryKey: "watch",
+  },
 ];

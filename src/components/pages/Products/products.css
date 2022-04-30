@@ -9,6 +9,7 @@
   width: 45%;
   height: 100%;
   padding: var(--gap-8);
+  background-color: var(--o-white);
 }
 
 @media screen and (min-width: 40rem) {

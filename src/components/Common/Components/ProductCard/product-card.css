@@ -3,3 +3,10 @@
   background-color: var(--primary);
   color: var(--white);
 }
+.card__badge--red {
+  background-color: var(--s-danger);
+}
+
+.btn__secondary {
+  cursor: not-allowed;
+}

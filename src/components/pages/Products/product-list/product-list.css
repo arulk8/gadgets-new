@@ -1,7 +1,6 @@
 .product__list {
   width: 80%;
   border-top-left-radius: 1rem;
-  background-color: var(--o-white);
 }
 
 .product_section {

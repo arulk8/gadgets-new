@@ -7,6 +7,8 @@ import {
   addToWishlistAction,
   removeFromWishlistAction,
   addToCartAction,
+  updateCartItemAction,
+  removeFromCartAction,
 } from "./actions";
 
 export const initSession = {
@@ -19,6 +21,7 @@ const init = {
   categories: [],
   products: [],
   wishlist: [],
+  cart: [],
   sessionData: { ...initSession },
   isLoggedIn: false,
 };
@@ -37,13 +40,16 @@ const storeReducer = (state, action) => {
       return { ...state, wishlist: newWishlist };
     case actionTypes.REMOVE_FROM_WISHLIST: {
       const newWishlist = [...state.wishlist].filter(
-        (product) => product.id !== payload
+        (product) => product._id !== payload
       );
       return { ...state, wishlist: newWishlist };
     }
 
     case actionTypes.ADD_TO_CART: {
       return { ...state, cart: [...payload] };
+    }
+    case actionTypes.REMOVE_FROM_CART: {
+      return { ...state, cart: !!payload ? [...payload] : [...state.cart] };
     }
     case actionTypes.SIGN_UP:
       return {
@@ -72,6 +78,8 @@ const StoreProvider = ({ children }) => {
   const addToWishlist = (product) => addToWishlistAction(dispatch, product);
   const removeFromWishlist = (product) =>
     removeFromWishlistAction(dispatch, product);
+  const updateCartItem = (cartInfo) => updateCartItemAction(dispatch, cartInfo);
+  const deleteFromCart = (product) => removeFromCartAction(dispatch, product);
   const actions = {
     dispatch,
     authenticate,
@@ -80,6 +88,8 @@ const StoreProvider = ({ children }) => {
     addToWishlist,
     addToCart,
     removeFromWishlist,
+    updateCartItem,
+    deleteFromCart,
   };
   return (
     <StoreContext.Provider value={{ ...store, dispatch, actions }}>
