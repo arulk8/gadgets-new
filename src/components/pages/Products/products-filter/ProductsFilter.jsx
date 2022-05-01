@@ -22,10 +22,11 @@ const ProductsFilter = () => {
   } = useFilterCtx();
 
   useEffect(() => {
-    filterByCategory({
-      key: id,
-      value: true,
-    });
+    id &&
+      filterByCategory({
+        key: id,
+        value: true,
+      });
   }, []);
   const { sortOrder, priceRange, selectedCategories, selectedRating } =
     appliedFilters;
