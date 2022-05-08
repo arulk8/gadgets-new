@@ -1,235 +1,51 @@
 import { useStore } from "../../../store/app-store-context";
+import ProductCard from "../../Common/Components/ProductCard/ProductCard";
+import { Link } from "react-router-dom";
 import "./whishlist.css";
 const Wishlist = () => {
-  const { addToWishlist } = useStore();
+  const { wishlist, actions, cart } = useStore();
+  const { removeFromWishlist, addToCart } = actions;
+  const cardItemsId = cart.map((product) => product._id);
+  const mergedList = wishlist.map((product) => {
+    const newProduct = { ...product };
+    if (cardItemsId.indexOf(product._id) >= 0) {
+      newProduct.addedToCart = true;
+    }
+    return newProduct;
+  });
+  if (wishlist.length === 0) {
+    return (
+      <div className="cart__container main">
+        <section className="cart__title">
+          <h3>
+            Your Wishlist is Empty. Browse
+            <Link
+              className="cart_action btn__link btn__link--primary"
+              to="/products"
+            >
+              products
+            </Link>
+          </h3>
+        </section>
+      </div>
+    );
+  }
   return (
-    <div className="container main ">
+    <div className="wishlist_container main ">
       <section className="wishlist__title my-8">
-        <h3>My Wishlist</h3>
+        <h3>My Wishlist </h3>
       </section>
       <div className="wishlist__container flex-wrap">
-        <section className="card card__v">
-          <header className="card__header flex-column flex-aic flex-jc">
-            <div className="badge-icon__container flex-row flex-aic">
-              <span className="card__badge font-light">Limited</span>
-              <span className="card__icons flex-column">
-                <button className="btn__icon font-semibold btn__icon--danger hide">
-                  <i className="far fa-times-circle"></i>
-                </button>
-                <button className="btn__icon font-semibold btn__icon--danger">
-                  <i className="fas fa-heart"></i>
-                </button>
-              </span>
-            </div>
-
-            <img
-              src="../assets/white-headphone.jpg"
-              alt="white headphone"
-              className="card__image"
-            />
-            <div className="card__overlay hide flex-row flex-aic flex-jc">
-              Out of Stock
-            </div>
-          </header>
-          <main className="card__body">
-            <div className="card__content">
-              <h2 className="font-normal">Sony Bass Head phone</h2>
-              <h3 className="font-bold">₹ 2000</h3>
-            </div>
-            <footer className="card__footer">
-              <div className="card__buttons">
-                <button className="card__button btn__add--cart font-medium">
-                  Add to Cart
-                </button>
-              </div>
-            </footer>
-          </main>
-        </section>
-        <section className="card card__v">
-          <header className="card__header flex-column flex-aic flex-jc">
-            <div className="badge-icon__container flex-row flex-aic">
-              <span className="card__badge font-light">Limited</span>
-              <span className="card__icons flex-column">
-                <button className="btn__icon font-semibold btn__icon--danger hide">
-                  <i className="far fa-times-circle"></i>
-                </button>
-                <button className="btn__icon font-semibold btn__icon--danger">
-                  <i className="fas fa-heart"></i>
-                </button>
-              </span>
-            </div>
-
-            <img
-              src="../assets/white-headphone.jpg"
-              alt="white headphone"
-              className="card__image"
-            />
-            <div className="card__overlay hide flex-row flex-aic flex-jc">
-              Out of Stock
-            </div>
-          </header>
-          <main className="card__body">
-            <div className="card__content">
-              <h2 className="font-normal">Sony Bass Head phone</h2>
-              <h3 className="font-bold">₹ 2000</h3>
-            </div>
-            <footer className="card__footer">
-              <div className="card__buttons">
-                <button className="card__button btn__add--cart font-medium">
-                  Add to Cart
-                </button>
-              </div>
-            </footer>
-          </main>
-        </section>
-        <section className="card card__v">
-          <header className="card__header flex-column flex-aic flex-jc">
-            <div className="badge-icon__container flex-row flex-aic">
-              <span className="card__badge font-light">Limited</span>
-              <span className="card__icons flex-column">
-                <button className="btn__icon font-semibold btn__icon--danger hide">
-                  <i className="far fa-times-circle"></i>
-                </button>
-                <button className="btn__icon font-semibold btn__icon--danger">
-                  <i className="fas fa-heart"></i>
-                </button>
-              </span>
-            </div>
-
-            <img
-              src="../assets/white-headphone.jpg"
-              alt="white headphone"
-              className="card__image"
-            />
-            <div className="card__overlay hide flex-row flex-aic flex-jc">
-              Out of Stock
-            </div>
-          </header>
-          <main className="card__body">
-            <div className="card__content">
-              <h2 className="font-normal">Sony Bass Head phone</h2>
-              <h3 className="font-bold">₹ 2000</h3>
-            </div>
-            <footer className="card__footer">
-              <div className="card__buttons">
-                <button className="card__button btn__add--cart font-medium">
-                  Add to Cart
-                </button>
-              </div>
-            </footer>
-          </main>
-        </section>
-        <section className="card card__v">
-          <header className="card__header flex-column flex-aic flex-jc">
-            <div className="badge-icon__container flex-row flex-aic">
-              <span className="card__badge font-light">Limited</span>
-              <span className="card__icons flex-column">
-                <button className="btn__icon font-semibold btn__icon--danger hide">
-                  <i className="far fa-times-circle"></i>
-                </button>
-                <button className="btn__icon font-semibold btn__icon--danger">
-                  <i className="fas fa-heart"></i>
-                </button>
-              </span>
-            </div>
-
-            <img
-              src="../assets/white-headphone.jpg"
-              alt="white headphone"
-              className="card__image"
-            />
-            <div className="card__overlay hide flex-row flex-aic flex-jc">
-              Out of Stock
-            </div>
-          </header>
-          <main className="card__body">
-            <div className="card__content">
-              <h2 className="font-normal">Sony Bass Head phone</h2>
-              <h3 className="font-bold">₹ 2000</h3>
-            </div>
-            <footer className="card__footer">
-              <div className="card__buttons">
-                <button className="card__button btn__add--cart font-medium">
-                  Add to Cart
-                </button>
-              </div>
-            </footer>
-          </main>
-        </section>
-        <section className="card card__v">
-          <header className="card__header flex-column flex-aic flex-jc">
-            <div className="badge-icon__container flex-row flex-aic">
-              <span className="card__badge font-light">Limited</span>
-              <span className="card__icons flex-column">
-                <button className="btn__icon font-semibold btn__icon--danger hide">
-                  <i className="far fa-times-circle"></i>
-                </button>
-                <button className="btn__icon font-semibold btn__icon--danger">
-                  <i className="fas fa-heart"></i>
-                </button>
-              </span>
-            </div>
-
-            <img
-              src="../assets/white-headphone.jpg"
-              alt="white headphone"
-              className="card__image"
-            />
-            <div className="card__overlay hide flex-row flex-aic flex-jc">
-              Out of Stock
-            </div>
-          </header>
-          <main className="card__body">
-            <div className="card__content">
-              <h2 className="font-normal">Sony Bass Head phone</h2>
-              <h3 className="font-bold">₹ 2000</h3>
-            </div>
-            <footer className="card__footer">
-              <div className="card__buttons">
-                <button className="card__button btn__add--cart font-medium">
-                  Add to Cart
-                </button>
-              </div>
-            </footer>
-          </main>
-        </section>
-        <section className="card card__v">
-          <header className="card__header flex-column flex-aic flex-jc">
-            <div className="badge-icon__container flex-row flex-aic">
-              <span className="card__badge font-light">Limited</span>
-              <span className="card__icons flex-column">
-                <button className="btn__icon font-semibold btn__icon--danger hide">
-                  <i className="far fa-times-circle"></i>
-                </button>
-                <button className="btn__icon font-semibold btn__icon--danger">
-                  <i className="fas fa-heart"></i>
-                </button>
-              </span>
-            </div>
-
-            <img
-              src="../assets/white-headphone.jpg"
-              alt="white headphone"
-              className="card__image"
-            />
-            <div className="card__overlay hide flex-row flex-aic flex-jc">
-              Out of Stock
-            </div>
-          </header>
-          <main className="card__body">
-            <div className="card__content">
-              <h2 className="font-normal">Sony Bass Head phone</h2>
-              <h3 className="font-bold">₹ 2000</h3>
-            </div>
-            <footer className="card__footer">
-              <div className="card__buttons">
-                <button className="card__button btn__add--cart font-medium">
-                  Add to Cart
-                </button>
-              </div>
-            </footer>
-          </main>
-        </section>
+        {mergedList.map((product) => (
+          <ProductCard
+            key={product._id}
+            wishlist={true}
+            {...product}
+            addToWishlist={() => {}}
+            removeFromWishlist={removeFromWishlist.bind(null, product)}
+            addToCart={() => addToCart.bind(null, product)}
+          />
+        ))}
       </div>
     </div>
   );
